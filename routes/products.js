@@ -10,8 +10,4 @@ router.post('/store', productsController.storeProduct)
 router.put('/:id', productsController.updateProduct)
 router.delete('/:id', productsController.deleleProduct)
 
-// router.delete('/delete/:id', productsController.deleleProduct)
-
-
-
 module.exports = router;
