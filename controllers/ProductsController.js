@@ -9,10 +9,10 @@ class ProductsController {
   async getAllProducts(req, res) {
     try {
       const products = await Product.find();
-      res.json(products);
-      // res.render('products/list', {
-      //   products: mutipleMongooseToObject(products),
-      // });
+      // res.json(products);
+      res.render('products/list', {
+        products: mutipleMongooseToObject(products),
+      });
     } catch (error) {
       res.status(400).json({ error: 'ERROR!!!' });
     }
@@ -22,10 +22,10 @@ class ProductsController {
   async getProductDetail(req, res) {
     try {
       const product = await Product.findOne({ slug: req.params.slug });
-      // res.json(product);
-      res.render('products/detail', {
-        product: mongooseToObject(product),
-      });
+      res.json(product);
+      // res.render('products/detail', {
+      //   product: mongooseToObject(product),
+      // });
     } catch (error) {
       res.status(400).json({ error: 'ERROR!!!' });
     }
@@ -40,8 +40,10 @@ class ProductsController {
   async storeProduct(req, res) {
     try {
       const product = new Product(req.body);
+      console.log(product);
       await product.save();
-      res.redirect('/products');
+      // res.redirect('/products');
+      return res.json(product)
     } catch (error) {
       res.status(400).json({ error: 'ERROR!!!' });
     }
@@ -50,7 +52,8 @@ class ProductsController {
   // [PUT] /products/:id
   async updateProduct(req, res) {
     try {
-      const product = await Product.updateOne({ _id: req.params.id }, req.body);
+      // const product = await Product.updateOne({ _id: req.params.id }, req.body);
+      await Product.updateOne({ _id: req.params.id }, req.body);
       res.status(200).json({ message: 'update ok'});
     } catch (error) {
       res.status(400).json({ error: 'ERROR!!!' });
@@ -58,9 +61,11 @@ class ProductsController {
   }
 
   // [DELETE] /products/:id
-  async deleleProduct(req, res, next) {
+  // [DELETE] /products/delete/:id
+  async deleleProduct(req, res) {
     try {
-      const products = await Product.deleteOne({ _id: req.params.id });
+      // const product =  await Product.deleteOne({ _id: req.params.id });
+      await Product.deleteOne({ _id: req.params.id });
       res.status(200).json({ message: 'ok' });
     } catch (error) {
       res.status(400).json({ error: 'ERROR!!!' });
